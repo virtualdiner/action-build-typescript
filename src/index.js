@@ -9,6 +9,8 @@ const { join } = require("path");
 const pushToBranch = core.getInput("pushToBranch");
 const branchName = core.getInput("branch");
 const githubToken = core.getInput("githubToken");
+const buildPath = core.getInput("buildPath") || null;
+const gitIgnoreOverride = core.getInput("gitIgnoreOverride").split(', ') || []
 const directory = process.env.GITHUB_WORKSPACE;
 
 if (pushToBranch == true && !githubToken)
@@ -83,6 +85,13 @@ if (pushToBranch == true && !githubToken)
     // Commit files
     core.info("Adding and commiting files");
     await exec(`git add ."`, [], { cwd: `branch-${branchName}` });
+    // If a git override is available, add it
+    if (gitIgnoreOverride.length > 0) {
+      for (const override of gitIgnoreOverride) {
+        await exec(`git add -f ${override}`, [], { cwd: `branch-${branchName}` });
+      }
+    }
+
     // We use the catch here because sometimes the code itself may not have changed
     await exec(`git commit -m "build: ${github.context.sha}"`, [], {
       cwd: `branch-${branchName}`,
