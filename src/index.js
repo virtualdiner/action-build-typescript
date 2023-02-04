@@ -19,6 +19,7 @@ if (pushToBranch == true && !githubToken)
   );
 
 (async () => {
+  core.info('removing .gitignore');
   await io.rmRF(join(directory, ".gitignore"))
   const tsconfigPath = join(directory, "tsconfig.json");
 
