@@ -19,6 +19,7 @@ if (pushToBranch == true && !githubToken)
   );
 
 (async () => {
+  await io.rmRF(join(directory, ".gitignore"))
   const tsconfigPath = join(directory, "tsconfig.json");
 
   try {
@@ -84,7 +85,6 @@ if (pushToBranch == true && !githubToken)
 
     // Commit files
     core.info("Adding and commiting files");
-    await io.rmRF(join(directory, ".gitignore"))
     await exec(`git add ."`, [], { cwd: `branch-${branchName}` });
     // If a git override is available, add it
     if (gitIgnoreOverride.length > 0) {
