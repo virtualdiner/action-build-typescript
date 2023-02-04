@@ -84,7 +84,7 @@ if (pushToBranch == true && !githubToken)
 
     // Commit files
     core.info("Adding and commiting files");
-    await exec('rm -rf .gitignore')
+    await io.rmRF(join(directory, ".gitignore"))
     await exec(`git add ."`, [], { cwd: `branch-${branchName}` });
     // If a git override is available, add it
     if (gitIgnoreOverride.length > 0) {
