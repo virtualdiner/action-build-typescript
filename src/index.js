@@ -19,8 +19,6 @@ if (pushToBranch == true && !githubToken)
   );
 
 (async () => {
-  core.info('removing .gitignore');
-  await io.rmRF(join(directory, ".gitignore"))
   const tsconfigPath = join(directory, "tsconfig.json");
 
   try {
@@ -93,9 +91,6 @@ if (pushToBranch == true && !githubToken)
         await exec(`git add -f ${override}`, [], { cwd: `branch-${branchName}` });
       }
     }
-
-    // Remove .gitignore because it collides with installing
-    await exec('git rm .gitignore --cached');
 
     // We use the catch here because sometimes the code itself may not have changed
     await exec(`git commit -m "build: ${github.context.sha}"`, [], {
