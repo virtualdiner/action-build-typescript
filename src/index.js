@@ -93,7 +93,7 @@ if (pushToBranch == true && !githubToken)
     }
 
     // Remove .gitignore because it collides with installing
-    await exec('git rm .gitignore');
+    await exec('git rm .gitignore --cached');
 
     // We use the catch here because sometimes the code itself may not have changed
     await exec(`git commit -m "build: ${github.context.sha}"`, [], {
