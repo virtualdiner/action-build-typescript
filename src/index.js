@@ -101,7 +101,7 @@ if (pushToBranch == true && !githubToken)
 
     // Push files
     core.info("Pushing new changes");
-    await exec(`git push origin HEAD:${branchName} --force`, [], {
+    await exec(`git push origin +HEAD:${branchName}`, [], {
       cwd: `branch-${branchName}`,
     });
 
